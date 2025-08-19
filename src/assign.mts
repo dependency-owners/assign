@@ -1,0 +1,112 @@
+import { getInput, info, setOutput } from '@actions/core';
+import { exec } from '@actions/exec';
+import { getOctokit } from '@actions/github';
+import {
+  dependencyOwners,
+  type DependencyOwnersOptions,
+} from 'dependency-owners';
+import { Dependency, resolveDependencyLoader } from 'dependency-owners/loader';
+import { readFile } from 'node:fs/promises';
+
+// Find the changes between the baseDeps and the currentDeps
+function diffDependencies(
+  baseDeps: Dependency[],
+  currentDeps: Dependency[]
+): string[] {
+  const baseMap = new Map(baseDeps.map((dep) => [dep.name, dep]));
+  const currentMap = new Map(currentDeps.map((dep) => [dep.name, dep]));
+
+  const added = currentDeps.filter((dep) => !baseMap.has(dep.name));
+  const removed = baseDeps.filter((dep) => !currentMap.has(dep.name));
+  const changed = currentDeps.filter((dep) => {
+    const baseDep = baseMap.get(dep.name);
+    return baseDep && baseDep.version !== dep.version;
+  });
+
+  return [...added, ...removed, ...changed].map((dep) => dep.name);
+}
+
+/**
+ * Assigns reviewers to changed dependencies using dependency-owners.
+ * @returns True if reviewers were successfully assigned, false otherwise.
+ */
+export async function assignReviewers(): Promise<boolean> {
+  // Inputs
+  const configFile = getInput('config-file');
+  const dependencyFile = getInput('dependency-file');
+  const githubToken = getInput('github-token');
+  const loaderInput = getInput('loader');
+
+  // Get GitHub event information
+  const githubEvent = JSON.parse(
+    await readFile(process.env.GITHUB_EVENT_PATH!, 'utf-8')
+  );
+  const baseRef = githubEvent.pull_request.base.ref;
+  const repo = githubEvent.repository.name;
+  const owner = githubEvent.repository.owner.login;
+  const pullNumber = githubEvent.pull_request.number;
+  const excludedReviewers = [
+    ...githubEvent.pull_request.requested_reviewers,
+    githubEvent.pull_request.user.login,
+  ];
+
+  // Resolve dependency loader
+  const loader = await resolveDependencyLoader(loaderInput, dependencyFile);
+  if (!loader) {
+    throw new Error('Failed to resolve dependency loader');
+  }
+
+  // Load dependencies from current branch
+  const currentDeps = await loader.load(dependencyFile);
+
+  // Load dependencies from base branch
+  let baseDeps: Dependency[];
+  try {
+    const baseRefPath = `${baseRef}:${dependencyFile}`;
+    const tmpFilePath = `/tmp/${dependencyFile}`;
+    await exec('git', ['show', baseRefPath, '>', tmpFilePath]);
+    baseDeps = await loader.load(tmpFilePath);
+  } catch {
+    // File likely does not exist
+    baseDeps = [];
+  }
+
+  // Find the changes between the baseDeps and the currentDeps
+  const dependencies = diffDependencies(baseDeps, currentDeps);
+
+  // Build options for dependency-owners
+  const options: DependencyOwnersOptions = {
+    dependencies,
+    dependencyFile,
+    loader,
+  };
+  if (configFile) {
+    options.configFile = configFile;
+  }
+
+  // Run dependency-owners
+  const results = await dependencyOwners(options);
+
+  // Filter out excluded reviewers
+  const reviewersSet = new Set(Object.values(results).flat());
+  for (const reviewer of excludedReviewers) {
+    reviewersSet.delete(reviewer);
+  }
+
+  // Request reviewers if they exist
+  const reviewers = Array.from(reviewersSet);
+  if (reviewers.length > 0) {
+    const octokit = getOctokit(githubToken);
+    await octokit.rest.pulls.requestReviewers({
+      reviewers,
+      owner,
+      repo,
+      pull_number: pullNumber,
+    });
+  } else {
+    info('No reviewers found for changed dependencies');
+  }
+
+  setOutput('reviewers', reviewers);
+  return true;
+}

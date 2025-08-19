@@ -1,0 +1,17 @@
+{
+  "kirkeaton": [
+    "@actions/core",
+    "@actions/exec",
+    "@actions/github",
+    "@dependency-owners/package-json-loader",
+    "@kirkeaton/prettier-config",
+    "@kirkeaton/semantic-release-config",
+    "@kirkeaton/tsconfig",
+    "@types/node",
+    "dependency-owners",
+    "esbuild",
+    "prettier",
+    "semantic-release",
+    "typescript"
+  ]
+}

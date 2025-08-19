@@ -1,0 +1,16 @@
+{
+  "extends": "@kirkeaton/semantic-release-config",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/github",
+      {
+        "failCommentCondition": false,
+        "labels": false,
+        "releasedLabels": false,
+        "successCommentCondition": false
+      }
+    ]
+  ]
+}

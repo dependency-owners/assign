@@ -1,0 +1,42 @@
+name: CI
+permissions:
+  contents: read
+  pull-requests: write
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Check formatting
+        run: pnpm lint
+      - name: Check types
+        run: pnpm typecheck
+      - name: Build
+        run: pnpm build
+      - id: assign-reviewers
+        name: Assign reviewers to dependency changes
+        continue-on-error: true
+        uses: ./
+      - name: Test action
+        run: |
+          if [[ "${{ steps.assign-reviewers.outputs.reviewers }}" != "[]" ]]; then
+            exit 1
+          fi
+      - name: Check dist for changes
+        run: git diff --exit-code --quiet ./dist
