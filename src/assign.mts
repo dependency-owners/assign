@@ -41,13 +41,23 @@ export async function assignReviewers(): Promise<boolean> {
   const githubEvent = JSON.parse(
     await readFile(process.env.GITHUB_EVENT_PATH!, 'utf-8')
   );
-  const baseRef = githubEvent.pull_request.base.ref;
-  const repo = githubEvent.repository.name;
-  const owner = githubEvent.repository.owner.login;
-  const pullNumber = githubEvent.pull_request.number;
+
+  // Check if the event is a pull request
+  const { pull_number: pullRequest, repository } = githubEvent;
+  if (!pullRequest) {
+    info('No pull request found');
+    setOutput('reviewers', []);
+    return true;
+  }
+
+  // Get pull request and repository information
+  const baseRef = pullRequest.base.ref;
+  const repo = repository.name;
+  const owner = repository.owner.login;
+  const pullNumber = pullRequest.number;
   const excludedReviewers = [
-    ...githubEvent.pull_request.requested_reviewers,
-    githubEvent.pull_request.user.login,
+    ...pullRequest.requested_reviewers,
+    pullRequest.user.login,
   ];
 
   // Resolve dependency loader
