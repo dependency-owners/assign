@@ -1,0 +1,28 @@
+name: 'Assign Reviewers when Dependencies Change'
+description: 'GitHub Action to assign reviewers when dependencies are changed using dependency-owners'
+author: 'Kirk Eaton <contact@kirkeaton.ca>'
+branding:
+  color: 'green'
+  icon: 'user-check'
+inputs:
+  config-file:
+    description: 'Path to the configuration file.'
+    type: 'string'
+  dependency-file:
+    description: 'Path to the dependency file.'
+    type: 'string'
+    default: 'package.json'
+  github-token:
+    description: 'GitHub token for authentication.'
+    type: 'string'
+    default: ${{ github.token }}
+  loader:
+    description: 'Loader to use for loading dependencies.'
+    type: 'string'
+    default: '@dependency-owners/package-json-loader'
+outputs:
+  reviewers:
+    description: 'List of assigned reviewers for changed dependencies.'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
