@@ -35,7 +35,7 @@ jobs:
         uses: ./
       - name: Test action
         run: |
-          if [[ $(echo '${{ steps.assign-reviewers.outputs.reviewers }}' | jq 'length') -ge 0 ]]; then
+          if [[ ! $(echo '${{ steps.assign-reviewers.outputs.reviewers }}' | jq 'length') -ge 0 ]]; then
             exit 1
           fi
       - name: Check dist for changes
