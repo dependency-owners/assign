@@ -6,7 +6,9 @@ import {
   type DependencyOwnersOptions,
 } from 'dependency-owners';
 import { Dependency, resolveDependencyLoader } from 'dependency-owners/loader';
+import { createWriteStream } from 'node:fs';
 import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
 // Find the changes between the baseDeps and the currentDeps
 function diffDependencies(
@@ -43,7 +45,7 @@ export async function assignReviewers(): Promise<boolean> {
   );
 
   // Check if the event is a pull request
-  const { pull_number: pullRequest, repository } = githubEvent;
+  const { pull_request: pullRequest, repository } = githubEvent;
   if (!pullRequest) {
     info('No pull request found');
     setOutput('reviewers', []);
@@ -73,8 +75,10 @@ export async function assignReviewers(): Promise<boolean> {
   let baseDeps: Dependency[];
   try {
     const baseRefPath = `${baseRef}:${dependencyFile}`;
-    const tmpFilePath = `/tmp/${dependencyFile}`;
-    await exec('git', ['show', baseRefPath, '>', tmpFilePath]);
+    const tmpFilePath = join(process.env.RUNNER_TEMP!, dependencyFile);
+    const outStream = createWriteStream(tmpFilePath);
+    await exec('git', ['fetch', 'origin', baseRef]);
+    await exec('git', ['show', `origin/${baseRefPath}`], { outStream });
     baseDeps = await loader.load(tmpFilePath);
   } catch {
     // File likely does not exist
