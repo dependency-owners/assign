@@ -8,6 +8,7 @@ inputs:
   config-file:
     description: 'Path to the configuration file.'
     type: 'string'
+    default: 'dependency-owners.json'
   dependency-file:
     description: 'Path to the dependency file.'
     type: 'string'
