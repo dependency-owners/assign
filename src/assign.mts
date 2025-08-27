@@ -1,13 +1,12 @@
 import { getInput, info, setOutput } from '@actions/core';
-import { exec } from '@actions/exec';
+import { exec, getExecOutput } from '@actions/exec';
 import { getOctokit } from '@actions/github';
 import {
   dependencyOwners,
   type DependencyOwnersOptions,
 } from 'dependency-owners';
 import { Dependency, resolveDependencyLoader } from 'dependency-owners/loader';
-import { createWriteStream } from 'node:fs';
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 // Find the changes between the baseDeps and the currentDeps
@@ -71,22 +70,27 @@ export async function assignReviewers(): Promise<boolean> {
   // Load dependencies from current branch
   const currentDeps = await loader.load(dependencyFile);
 
+  // Read dependencies from base branch and save to temp file
+  const baseRefPath = `${baseRef}:${dependencyFile}`;
+  const tmpFilePath = join(process.env.RUNNER_TEMP!, dependencyFile);
+  await exec('git', ['fetch', 'origin', baseRef]);
+  const output = await getExecOutput('git', ['show', `origin/${baseRefPath}`], {
+    silent: true,
+  });
+  await writeFile(tmpFilePath, output.stdout, 'utf-8');
+
   // Load dependencies from base branch
-  let baseDeps: Dependency[];
-  try {
-    const baseRefPath = `${baseRef}:${dependencyFile}`;
-    const tmpFilePath = join(process.env.RUNNER_TEMP!, dependencyFile);
-    const outStream = createWriteStream(tmpFilePath);
-    await exec('git', ['fetch', 'origin', baseRef]);
-    await exec('git', ['show', `origin/${baseRefPath}`], { outStream });
-    baseDeps = await loader.load(tmpFilePath);
-  } catch {
-    // File likely does not exist
-    baseDeps = [];
-  }
+  const baseDeps = await loader.load(tmpFilePath);
 
   // Find the changes between the baseDeps and the currentDeps
   const dependencies = diffDependencies(baseDeps, currentDeps);
+
+  // Check if there are any changed dependencies
+  if (dependencies.length === 0) {
+    info('No changed dependencies found');
+    setOutput('reviewers', []);
+    return true;
+  }
 
   // Build options for dependency-owners
   const options: DependencyOwnersOptions = {
