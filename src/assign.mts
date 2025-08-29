@@ -61,8 +61,15 @@ export async function assignReviewers(): Promise<boolean> {
     pullRequest.user.login,
   ];
 
+  // Determine paths for loader resolution
+  const paths = [];
+  if (process.env.GITHUB_WORKSPACE) {
+    paths.push(process.env.GITHUB_WORKSPACE);
+  }
+
   // Resolve dependency loader
-  const loader = await resolveDependencyLoader(loaderInput, dependencyFile);
+  const loaderPath = require.resolve(loaderInput, { paths });
+  const loader = await resolveDependencyLoader(loaderPath, dependencyFile);
   if (!loader) {
     throw new Error('Failed to resolve dependency loader');
   }
