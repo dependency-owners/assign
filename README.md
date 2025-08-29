@@ -12,12 +12,12 @@ See [action.yml](action.yml)
     # Path to the configuration file. Default: 'dependency-owners.json'
     config-file: ''
 
-    # Path to the dependency file. Default: 'package.json'
+    # Path to the dependency file.
     dependency-file: ''
 
     # GitHub token for authentication. Default: ${{ github.token }}
     github-token: ''
 
-    # Loader to use for loading dependencies. Default: '@dependency-owners/package-json-loader'
+    # Loader to use for loading dependencies.
     loader: ''
 ```
