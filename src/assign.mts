@@ -101,13 +101,11 @@ export async function assignReviewers(): Promise<boolean> {
 
   // Build options for dependency-owners
   const options: DependencyOwnersOptions = {
+    configFile,
     dependencies,
     dependencyFile,
     loader,
   };
-  if (configFile) {
-    options.configFile = configFile;
-  }
 
   // Run dependency-owners
   const results = await dependencyOwners(options);
