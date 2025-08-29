@@ -34,9 +34,9 @@ function diffDependencies(
 export async function assignReviewers(): Promise<boolean> {
   // Inputs
   const configFile = getInput('config-file');
-  const dependencyFile = getInput('dependency-file');
+  const dependencyFile = getInput('dependency-file', { required: true });
   const githubToken = getInput('github-token');
-  const loaderInput = getInput('loader');
+  const loaderInput = getInput('loader', { required: true });
 
   // Get GitHub event information
   const githubEvent = JSON.parse(

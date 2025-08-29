@@ -33,6 +33,9 @@ jobs:
         name: Assign reviewers to dependency changes
         continue-on-error: true
         uses: ./
+        with:
+          dependency-file: 'package.json'
+          loader: '@dependency-owners/package-json-loader'
       - name: Test action
         run: |
           if [[ ! $(echo '${{ steps.assign-reviewers.outputs.reviewers }}' | jq 'length') -ge 0 ]]; then
