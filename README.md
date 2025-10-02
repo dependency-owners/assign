@@ -21,3 +21,12 @@ See [action.yml](action.yml)
     # Loader to use for loading dependencies.
     loader: ''
 ```
+
+## Required Permissions
+
+To successfully assign reviewers to pull requests, this action requires write access for pull requests:
+
+```yaml
+permissions:
+  pull-requests: write
+```
