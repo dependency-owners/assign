@@ -25,5 +25,5 @@ outputs:
   reviewers:
     description: 'List of assigned reviewers for changed dependencies.'
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
