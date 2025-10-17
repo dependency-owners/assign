@@ -34,8 +34,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0(typescript@5.9.3)
       '@types/node':
-        specifier: 24.8.0
-        version: 24.8.0
+        specifier: 24.8.1
+        version: 24.8.1
       esbuild:
         specifier: 0.25.11
         version: 0.25.11
@@ -406,8 +406,8 @@ packages:
   '@stricli/core@1.2.1':
     resolution: {integrity: sha512-dTv2m2xYE/mtRC6RR4ici4msx7gba+hGTplgIK1JT+wVl1L7ODb9S9n2VVQ9OBKBAQB3wvBqr8Z4jcUZpeALUA==}
 
-  '@types/node@24.8.0':
-    resolution: {integrity: sha512-5x08bUtU8hfboMTrJ7mEO4CpepS9yBwAqcL52y86SWNmbPX8LVbNs3EP4cNrIZgdjk2NAlP2ahNihozpoZIxSg==}
+  '@types/node@24.8.1':
+    resolution: {integrity: sha512-alv65KGRadQVfVcG69MuB4IzdYVpRwMG/mq8KWOaoOdyY617P5ivaDiMCGOFDWD2sAn5Q0mR3mRtUOgm99hL9Q==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -1798,7 +1798,7 @@ snapshots:
 
   '@stricli/core@1.2.1': {}
 
-  '@types/node@24.8.0':
+  '@types/node@24.8.1':
     dependencies:
       undici-types: 7.14.0
 
