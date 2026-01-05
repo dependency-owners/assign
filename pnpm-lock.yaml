@@ -25,14 +25,14 @@ importers:
         specifier: 2.0.0
         version: 2.0.0(dependency-owners@3.0.2)
       '@kirkeaton/prettier-config':
-        specifier: 1.0.5
-        version: 1.0.5
+        specifier: 1.0.6
+        version: 1.0.6
       '@kirkeaton/semantic-release-config':
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.0.1
+        version: 2.0.1
       '@kirkeaton/tsconfig':
-        specifier: 2.1.0
-        version: 2.1.0(typescript@5.9.3)
+        specifier: 2.1.1
+        version: 2.1.1(typescript@5.9.3)
       '@types/node':
         specifier: 24.10.4
         version: 24.10.4
@@ -247,14 +247,14 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
 
-  '@kirkeaton/prettier-config@1.0.5':
-    resolution: {integrity: sha512-1qTt9JF2M7geisH+Hk16aQWgYxxXFX5I3CvW5qFp8ipJ72ru93qK0bpsIhfiiXnKZS9FL3DC+cj+JCoPu3S7vg==}
+  '@kirkeaton/prettier-config@1.0.6':
+    resolution: {integrity: sha512-AGLyINAM0L+uexB3B6gsDyyBiHHPeUCuhwI3W0Kl+lbW1V0DvWlOaPDnn7yREYQMrPTY37gAzVBIhWPw2wB4nQ==}
 
-  '@kirkeaton/semantic-release-config@2.0.0':
-    resolution: {integrity: sha512-gOzSL1ZYYqRmmAWGs164LNBgmHaUNQFy7a4NPVwC2REBUKlXrXm+r12a3K/2fxaKOXLLKQYXv/AXpfOzcbspJQ==}
+  '@kirkeaton/semantic-release-config@2.0.1':
+    resolution: {integrity: sha512-yD15MORigHw+Xhi5kzhVa+P9GU8Ay5QUUb16uVXybJBc6fVe7oBV0KJz6zey91OeTguN5BeHz2cB90otWggHNA==}
 
-  '@kirkeaton/tsconfig@2.1.0':
-    resolution: {integrity: sha512-q8lQ+5QD1pX5dAV4L1mYQokjO58D4UjgN4xH5KPhDDvy1qbEeOWryS2xbE1VkNF5+JZmovc5a2NpIqx2aHTRLw==}
+  '@kirkeaton/tsconfig@2.1.1':
+    resolution: {integrity: sha512-O03gpWY4/9VIa8S3F10W5b0R1z5X7cwTIpj/o9w+5WzkEjBd9wDnjSqFfCogK9M3Y9tjsjKC6nOeRGj3pJlOFQ==}
     engines: {node: '>=20'}
     peerDependencies:
       typescript: ~5.9
@@ -1630,11 +1630,11 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@kirkeaton/prettier-config@1.0.5': {}
+  '@kirkeaton/prettier-config@1.0.6': {}
 
-  '@kirkeaton/semantic-release-config@2.0.0': {}
+  '@kirkeaton/semantic-release-config@2.0.1': {}
 
-  '@kirkeaton/tsconfig@2.1.0(typescript@5.9.3)':
+  '@kirkeaton/tsconfig@2.1.1(typescript@5.9.3)':
     dependencies:
       typescript: 5.9.3
 
