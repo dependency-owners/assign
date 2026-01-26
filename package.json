@@ -15,12 +15,10 @@
   "devDependencies": {
     "@dependency-owners/package-json-loader": "2.0.0",
     "@kirkeaton/prettier-config": "1.0.6",
-    "@kirkeaton/semantic-release-config": "2.0.1",
     "@kirkeaton/tsconfig": "2.1.1",
     "@types/node": "24.10.9",
     "esbuild": "0.27.2",
     "prettier": "3.8.1",
-    "semantic-release": "25.0.2",
     "typescript": "5.9.3"
   },
   "engines": {
@@ -37,19 +35,13 @@
     "setup"
   ],
   "license": "BSD-3-Clause",
-  "packageManager": "pnpm@10.28.1+sha512.7d7dbbca9e99447b7c3bf7a73286afaaf6be99251eb9498baefa7d406892f67b879adb3a1d7e687fc4ccc1a388c7175fbaae567a26ab44d1067b54fcb0d6a316",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
-  },
   "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dependency-owners/assign.git"
   },
   "scripts": {
-    "build": "pnpm clean && ./build.mjs",
+    "build": "npm run clean && ./build.mjs",
     "clean": "rm -rf dist",
     "format": "prettier \"**/*.{js,json,md,mjs,mts}\" --write",
     "lint": "prettier \"**/*.{js,json,md,mjs,mts}\" --check",

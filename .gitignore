@@ -103,7 +103,7 @@ typings/
 .tern-port
 
 # Lockfiles
-package-lock.json
+pnpm-lock.yaml
 yarn.lock
 
 # MacOS files
