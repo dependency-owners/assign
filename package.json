@@ -13,7 +13,7 @@
     "dependency-owners": "3.0.3"
   },
   "devDependencies": {
-    "@dependency-owners/package-json-loader": "2.0.0",
+    "@dependency-owners/package-json-loader": "2.0.1",
     "@kirkeaton/prettier-config": "1.0.6",
     "@kirkeaton/tsconfig": "2.1.1",
     "@types/node": "24.10.9",
