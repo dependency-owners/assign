@@ -10,7 +10,7 @@
     "@actions/core": "2.0.3",
     "@actions/exec": "2.0.0",
     "@actions/github": "7.0.0",
-    "dependency-owners": "3.0.3"
+    "dependency-owners": "3.0.4"
   },
   "devDependencies": {
     "@dependency-owners/package-json-loader": "2.0.1",
