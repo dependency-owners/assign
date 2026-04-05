@@ -1,6 +1,7 @@
 {
   "extends": "@kirkeaton/tsconfig",
   "compilerOptions": {
+    "noEmit": true,
     "types": ["node"]
   },
   "include": ["src"]
