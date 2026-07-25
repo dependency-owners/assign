@@ -17,8 +17,8 @@
     "@kirkeaton/prettier-config": "2.0.0",
     "@kirkeaton/tsconfig": "3.1.0",
     "@types/node": "24.13.3",
-    "esbuild": "0.28.1",
     "prettier": "3.9.6",
+    "rolldown": "1.2.0",
     "typescript": "7.0.2"
   },
   "engines": {
@@ -41,11 +41,10 @@
     "url": "git+https://github.com/dependency-owners/assign.git"
   },
   "scripts": {
-    "build": "npm run clean && ./build.mjs",
-    "clean": "rm -rf dist",
-    "format": "prettier \"**/*.{js,json,md,mjs,mts}\" --write",
-    "lint": "prettier \"**/*.{js,json,md,mjs,mts}\" --check",
+    "build": "rolldown -c",
+    "format": "prettier \"**/*.{js,json,md,ts}\" --write",
+    "lint": "prettier \"**/*.{js,json,md,ts}\" --check",
     "typecheck": "tsc --noEmit"
   },
-  "type": "commonjs"
+  "type": "module"
 }

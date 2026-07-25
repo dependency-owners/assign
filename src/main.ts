@@ -1,6 +1,6 @@
 import { setFailed } from '@actions/core';
 
-import { assignReviewers } from './assign.mts';
+import { assignReviewers } from './assign.js';
 
 const run = async () => {
   try {

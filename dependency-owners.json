@@ -9,8 +9,8 @@
     "@kirkeaton/tsconfig",
     "@types/node",
     "dependency-owners",
-    "esbuild",
     "prettier",
+    "rolldown",
     "semantic-release",
     "typescript"
   ]
